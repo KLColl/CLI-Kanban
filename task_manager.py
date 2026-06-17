@@ -5,6 +5,7 @@
 """
 
 from datetime import datetime
+from os import remove
 
 import storage
 
@@ -79,6 +80,18 @@ def add_task(tasks, title, description="", priority="medium", deadline=None):
     tasks.append(task)
     storage.save_tasks(tasks)
     return task
+
+
+def delete_task(tasks, task_id):
+    task = find_task(tasks, task_id)
+    if task is None:
+        raise TaskError(f"Задачу з ідентифікатором {task_id} не знайдено.")
+
+    tasks.remove(task_id)
+    storage.save_tasks(tasks)
+    return task
+
+
 
 
 def find_task(tasks, task_id):

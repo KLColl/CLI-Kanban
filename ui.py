@@ -25,5 +25,25 @@ def format_task_line(task):
     return f"#{task['id']} {task['title']} (пріоритет: {priority_label}{deadline_part})"
 
 
+def print_task_details(task):
+    """Виводить повну інформацію про одну задачу."""
+    print(f"\nID: {task['id']}")
+    print(f"Назва: {task['title']}")
+    print(f"Опис: {task['description'] or '(немає)'}")
+    print(f"Статус: {tm.STATUS_LABELS.get(task['status'], task['status'])}")
+    print(f"Пріоритет: {tm.PRIORITY_LABELS.get(task['priority'], task['priority'])}")
+    print(f"Дедлайн: {task['deadline'] or '(немає)'}")
+    print(f"Створено: {task['created_at']}")
+
 def ask(prompt):
     return input(prompt).strip()
+
+
+def ask_int(prompt):
+    """Запитує ціле число. Повертає None, якщо введено не число."""
+    raw = ask(prompt)
+    try:
+        return int(raw)
+    except ValueError:
+        print(f"[!] «{raw}» не є цілим числом.")
+        return None
