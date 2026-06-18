@@ -26,7 +26,7 @@ def load_tasks():
         return []
 
 
-def save_tasks(tasks):
+def save_tasks(tasks: list):
     """Зберігає список задач у board.json."""
     try:
         with open(DATA_FILE, "w", encoding="utf-8") as f:
