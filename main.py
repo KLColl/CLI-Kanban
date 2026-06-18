@@ -18,6 +18,7 @@ MENU = """
 7. Показати прострочені задачі
 8. Фільтрувати за пріоритетом
 9. Сортувати всі задачі за дедлайном
+10. Пошук задач за текстом
 0. Вийти
 =============================================
 """
@@ -131,6 +132,15 @@ def action_sort_by_deadline(tasks: list):
     ui.print_task_list(sorted_tasks, "Усі задачі за дедлайном")
 
 
+def action_search(tasks):
+    query = ui.ask("Текст для пошуку: ")
+    try:
+        found = tm.search_tasks(tasks, query)
+        ui.print_task_list(found, f"Результати пошуку «{query}»")
+    except tm.TaskError as e:
+        print(f"[!] {e}")
+
+
 def main():
     tasks = storage.load_tasks()
 
@@ -156,6 +166,8 @@ def main():
             action_filter_by_priority(tasks)
         elif choice == "9":
             action_sort_by_deadline(tasks)
+        elif choice == "10":
+            action_search(tasks)
         elif choice == "0":
             print("До побачення!")
             break

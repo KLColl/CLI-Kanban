@@ -187,3 +187,20 @@ def find_task(tasks: list, task_id: int) -> dict | None:
         if task["id"] == task_id:
             return task
     return None
+
+
+def search_tasks(tasks: list, query: str) -> list:
+    """
+    Шукає задачі, у назві або описі яких міститься query (без урахування регістру).
+    """
+    query = (query or "").strip().lower()
+    if not query:
+        raise TaskError("Пошуковий запит не може бути порожнім.")
+
+    result = []
+    for task in tasks:
+        title = task.get("title", "").lower()
+        description = task.get("description", "").lower()
+        if query in title or query in description:
+            result.append(task)
+    return result
