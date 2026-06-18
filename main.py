@@ -132,7 +132,7 @@ def action_sort_by_deadline(tasks: list):
     ui.print_task_list(sorted_tasks, "Усі задачі за дедлайном")
 
 
-def action_search(tasks):
+def action_search(tasks: list):
     query = ui.ask("Текст для пошуку: ")
     try:
         found = tm.search_tasks(tasks, query)
