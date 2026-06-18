@@ -7,20 +7,34 @@ import storage
 import task_manager as tm
 import ui
 
-MENU = """
+MAIN_MENU = """
 ========== KANBAN-МЕНЕДЖЕР ЗАДАЧ ==========
+1. Дошка та задачі
+2. Пошук і фільтри
+0. Вийти
+=============================================
+"""
+
+BOARD_MENU = """
+----- ДОШКА ТА ЗАДАЧІ -----
 1. Показати дошку
 2. Додати задачу
 3. Видалити задачу
 4. Переглянути деталі задачі
 5. Перемістити задачу
 6. Редагувати задачу (пріоритет/дедлайн)
-7. Показати прострочені задачі
-8. Фільтрувати за пріоритетом
-9. Сортувати всі задачі за дедлайном
-10. Пошук задач за текстом
-0. Вийти
-=============================================
+0. Назад до головного меню
+----------------------------
+"""
+
+SEARCH_MENU = """
+----- ПОШУК І ФІЛЬТРИ -----
+1. Показати прострочені задачі
+2. Фільтрувати за пріоритетом
+3. Сортувати всі задачі за дедлайном
+4. Пошук задач за текстом
+0. Назад до головного меню
+----------------------------
 """
 
 
@@ -141,11 +155,10 @@ def action_search(tasks: list):
         print(f"[!] {e}")
 
 
-def main():
-    tasks = storage.load_tasks()
-
+def board_menu_loop(tasks: list):
+    """Підменю «Дошка та задачі»."""
     while True:
-        print(MENU)
+        print(BOARD_MENU)
         choice = ui.ask("Оберіть дію: ")
 
         if choice == "1":
@@ -160,14 +173,43 @@ def main():
             action_move(tasks)
         elif choice == "6":
             action_edit(tasks)
-        elif choice == "7":
+        elif choice == "0":
+            return
+        else:
+            print(f"[!] Невідомий пункт меню: «{choice}». Спробуйте ще раз.")
+
+
+def search_menu_loop(tasks):
+    """Підменю «Пошук і фільтри»."""
+    while True:
+        print(SEARCH_MENU)
+        choice = ui.ask("Оберіть дію: ")
+
+        if choice == "1":
             ui.print_overdue(tasks)
-        elif choice == "8":
+        elif choice == "2":
             action_filter_by_priority(tasks)
-        elif choice == "9":
+        elif choice == "3":
             action_sort_by_deadline(tasks)
-        elif choice == "10":
+        elif choice == "4":
             action_search(tasks)
+        elif choice == "0":
+            return
+        else:
+            print(f"[!] Невідомий пункт меню: «{choice}». Спробуйте ще раз.")
+
+
+def main():
+    tasks = storage.load_tasks()
+
+    while True:
+        print(MAIN_MENU)
+        choice = ui.ask("Оберіть дію: ")
+
+        if choice == "1":
+            board_menu_loop(tasks)
+        elif choice == "2":
+            search_menu_loop(tasks)
         elif choice == "0":
             print("До побачення!")
             break
