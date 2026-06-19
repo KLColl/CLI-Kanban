@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Автоматизовані тести для Kanban-менеджера задач.
 Запуск: python -m pytest test_kanban.py -v
