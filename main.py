@@ -11,6 +11,7 @@ MAIN_MENU = """
 ========== KANBAN-МЕНЕДЖЕР ЗАДАЧ ==========
 1. Дошка та задачі
 2. Пошук і фільтри
+3. Статистика
 0. Вийти
 =============================================
 """
@@ -22,7 +23,11 @@ BOARD_MENU = """
 3. Видалити задачу
 4. Переглянути деталі задачі
 5. Перемістити задачу
-6. Редагувати задачу (пріоритет/дедлайн)
+6. Редагувати задачу (пріоритет/дедлайн/теги)
+7. Архівувати виконані задачі (Done)
+8. Переглянути архів
+9. Додати підзадачу
+10. Позначити підзадачу виконаною/невиконаною
 0. Назад до головного меню
 ----------------------------
 """
@@ -33,12 +38,20 @@ SEARCH_MENU = """
 2. Фільтрувати за пріоритетом
 3. Сортувати всі задачі за дедлайном
 4. Пошук задач за текстом
+5. Фільтрувати за тегом
+0. Назад до головного меню
+----------------------------
+"""
+
+STATS_MENU = """
+----- СТАТИСТИКА -----
+1. Показати статистику дошки
 0. Назад до головного меню
 ----------------------------
 """
 
 
-def action_add(tasks: list):
+def action_add(tasks):
     title = ui.ask("Назва задачі: ")
     description = ui.ask("Опис (можна залишити порожнім): ")
     priority = ui.ask(f"Пріоритет [{'/'.join(tm.PRIORITIES)}] (Enter = medium): ").lower()
@@ -46,9 +59,10 @@ def action_add(tasks: list):
         priority = "medium"
     deadline = ui.ask("Дедлайн ДД.ММ.РРРР (Enter, якщо немає): ")
     deadline = deadline if deadline else None
+    tags = ui.ask("Теги через кому (Enter, якщо немає): ")
 
     try:
-        task = tm.add_task(tasks, title, description, priority, deadline)
+        task = tm.add_task(tasks, title, description, priority, deadline, tags)
         print(f"Задачу #{task['id']} «{task['title']}» додано в Todo.")
     except tm.TaskError as e:
         print(f"[!] {e}")
@@ -104,7 +118,7 @@ def action_move(tasks: list):
         print(f"[!] {e}")
 
 
-def action_edit(tasks: list):
+def action_edit(tasks):
     task_id = ui.ask_int("ID задачі для редагування: ")
     if task_id is None:
         return
@@ -116,6 +130,7 @@ def action_edit(tasks: list):
     ui.print_task_details(task)
     priority = ui.ask(f"Новий пріоритет [{'/'.join(tm.PRIORITIES)}] (Enter = не змінювати): ").lower()
     deadline = ui.ask("Новий дедлайн ДД.ММ.РРРР, або 'очистити', або Enter = не змінювати: ")
+    tags = ui.ask("Нові теги через кому (Enter = не змінювати): ")
 
     priority_arg = priority if priority else None
     if deadline == "":
@@ -124,9 +139,10 @@ def action_edit(tasks: list):
         deadline_arg = ""
     else:
         deadline_arg = deadline
+    tags_arg = tags if tags else None
 
     try:
-        tm.edit_task(tasks, task_id, priority=priority_arg, deadline=deadline_arg)
+        tm.edit_task(tasks, task_id, priority=priority_arg, deadline=deadline_arg, tags=tags_arg)
         print(f"Задачу #{task_id} оновлено.")
     except tm.TaskError as e:
         print(f"[!] {e}")
@@ -155,6 +171,61 @@ def action_search(tasks: list):
         print(f"[!] {e}")
 
 
+def action_statistics(tasks):
+    stats = tm.get_statistics(tasks)
+    ui.print_statistics(stats)
+
+
+def action_filter_by_tag(tasks):
+    tag = ui.ask("Тег для фільтра: ")
+    try:
+        filtered = tm.filter_by_tag(tasks, tag)
+        ui.print_task_list(filtered, f"Задачі з тегом «{tag.strip().lower()}»")
+    except tm.TaskError as e:
+        print(f"[!] {e}")
+
+
+def action_archive_done(tasks):
+    confirm = ui.ask("Архівувати всі задачі зі статусом Done? (y/n): ").lower()
+    if confirm != "y":
+        print("Архівування скасовано.")
+        return
+    archived = tm.archive_done_tasks(tasks)
+    print(f"Архівовано задач: {len(archived)}.")
+
+
+def action_view_archive():
+    archived = tm.get_archived_tasks()
+    ui.print_task_list(archived, "Архів виконаних задач")
+
+
+def action_add_subtask(tasks):
+    task_id = ui.ask_int("ID задачі: ")
+    if task_id is None:
+        return
+    title = ui.ask("Назва підзадачі: ")
+    try:
+        subtask = tm.add_subtask(tasks, task_id, title)
+        print(f"Підзадачу #{subtask['id']} «{subtask['title']}» додано.")
+    except tm.TaskError as e:
+        print(f"[!] {e}")
+
+
+def action_toggle_subtask(tasks):
+    task_id = ui.ask_int("ID задачі: ")
+    if task_id is None:
+        return
+    subtask_id = ui.ask_int("ID підзадачі: ")
+    if subtask_id is None:
+        return
+    try:
+        subtask = tm.toggle_subtask(tasks, task_id, subtask_id)
+        state = "виконано" if subtask["done"] else "не виконано"
+        print(f"Підзадача «{subtask['title']}» тепер: {state}.")
+    except tm.TaskError as e:
+        print(f"[!] {e}")
+
+
 def board_menu_loop(tasks: list):
     """Підменю «Дошка та задачі»."""
     while True:
@@ -173,6 +244,14 @@ def board_menu_loop(tasks: list):
             action_move(tasks)
         elif choice == "6":
             action_edit(tasks)
+        elif choice == "7":
+            action_archive_done(tasks)
+        elif choice == "8":
+            action_view_archive()
+        elif choice == "9":
+            action_add_subtask(tasks)
+        elif choice == "10":
+            action_toggle_subtask(tasks)
         elif choice == "0":
             return
         else:
@@ -193,6 +272,22 @@ def search_menu_loop(tasks):
             action_sort_by_deadline(tasks)
         elif choice == "4":
             action_search(tasks)
+        elif choice == "5":
+            action_filter_by_tag(tasks)
+        elif choice == "0":
+            return
+        else:
+            print(f"[!] Невідомий пункт меню: «{choice}». Спробуйте ще раз.")
+
+
+def stats_menu_loop(tasks):
+    """Підменю «Статистика»."""
+    while True:
+        print(STATS_MENU)
+        choice = ui.ask("Оберіть дію: ")
+
+        if choice == "1":
+            action_statistics(tasks)
         elif choice == "0":
             return
         else:
@@ -210,6 +305,8 @@ def main():
             board_menu_loop(tasks)
         elif choice == "2":
             search_menu_loop(tasks)
+        elif choice == "3":
+            stats_menu_loop(tasks)
         elif choice == "0":
             print("До побачення!")
             break

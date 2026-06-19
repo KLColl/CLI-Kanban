@@ -1,5 +1,6 @@
 # Дані програми (генеруються при запуску)
 board.json
+archive.json
 
 # Python
 __pycache__/
