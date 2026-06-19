@@ -106,7 +106,7 @@ def add_task(
     storage.save_tasks(tasks)
     return task
 
-def parse_tags(raw_tags):
+def parse_tags(raw_tags: str):
     """
     Перетворює рядок тегів через кому ('робота, важливо') у список
     нормалізованих тегів без пробілів і дублікатів.
@@ -124,7 +124,7 @@ def parse_tags(raw_tags):
     return seen
 
 
-def filter_by_tag(tasks, tag):
+def filter_by_tag(tasks: list, tag: str):
     """Повертає задачі, що містять вказаний тег."""
     tag = (tag or "").strip().lower()
     if not tag:
@@ -137,7 +137,7 @@ def delete_task(tasks: list, task_id: int) -> dict:
     if task is None:
         raise TaskError(f"Задачу з ідентифікатором {task_id} не знайдено.")
 
-    tasks.remove(task_id)
+    tasks.remove(task)
     storage.save_tasks(tasks)
     return task
 
@@ -161,6 +161,7 @@ def move_task(tasks: list, task_id: int, new_status: str) -> dict:
     _log_history(task, f"Статус змінено: {STATUS_LABELS[old_status]} → {STATUS_LABELS[new_status]}")
     storage.save_tasks(tasks)
     return task
+
 
 def edit_task(
         tasks: list,
