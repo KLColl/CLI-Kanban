@@ -1,0 +1,213 @@
+[
+  {
+    "id": 2,
+    "title": "Implement task tags and filtering",
+    "description": "Add support for tags, tag filtering, and display tags in task output.",
+    "status": "in_progress",
+    "priority": "high",
+    "deadline": "22.06.2026",
+    "created_at": "11.06.2026",
+    "tags": [
+      "feature",
+      "filter",
+      "backend"
+    ],
+    "subtasks": [
+      {
+        "id": 1,
+        "title": "Store tags in task data",
+        "done": true
+      },
+      {
+        "id": 2,
+        "title": "Add filtering by tag",
+        "done": true
+      },
+      {
+        "id": 3,
+        "title": "Show tags in board output",
+        "done": false
+      }
+    ],
+    "history": [
+      {
+        "timestamp": "11.06.2026 10:05",
+        "action": "Задачу створено зі статусом Todo"
+      },
+      {
+        "timestamp": "13.06.2026 16:30",
+        "action": "Статус змінено: Todo → In Progress"
+      },
+      {
+        "timestamp": "14.06.2026 12:10",
+        "action": "Додано підзадачу: Store tags in task data"
+      },
+      {
+        "timestamp": "15.06.2026 18:45",
+        "action": "Додано підзадачу: Add filtering by tag"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Add task history log",
+    "description": "Track task creation, edits, status changes, and subtask updates.",
+    "status": "todo",
+    "priority": "medium",
+    "deadline": "25.06.2026",
+    "created_at": "12.06.2026",
+    "tags": [
+      "history",
+      "audit",
+      "feature"
+    ],
+    "subtasks": [
+      {
+        "id": 1,
+        "title": "Log task creation",
+        "done": true
+      },
+      {
+        "id": 2,
+        "title": "Log status changes",
+        "done": false
+      },
+      {
+        "id": 3,
+        "title": "Log edits and subtasks",
+        "done": false
+      }
+    ],
+    "history": [
+      {
+        "timestamp": "12.06.2026 08:40",
+        "action": "Задачу створено зі статусом Todo"
+      },
+      {
+        "timestamp": "13.06.2026 09:10",
+        "action": "Додано підзадачу: Log task creation"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Fix overdue task highlighting",
+    "description": "Improve console output for overdue tasks and make warnings more visible.",
+    "status": "todo",
+    "priority": "low",
+    "deadline": "20.06.2026",
+    "created_at": "14.06.2026",
+    "tags": [
+      "ui",
+      "console",
+      "bugfix"
+    ],
+    "history": [
+      {
+        "timestamp": "14.06.2026 15:25",
+        "action": "Задачу створено зі статусом Todo"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Build statistics for the board",
+    "description": "Show completion rate, overdue count, and breakdown by priority and status.",
+    "status": "in_progress",
+    "priority": "high",
+    "deadline": "21.06.2026",
+    "created_at": "15.06.2026",
+    "tags": [
+      "statistics",
+      "report",
+      "dashboard"
+    ],
+    "subtasks": [
+      {
+        "id": 1,
+        "title": "Count tasks by status",
+        "done": true
+      },
+      {
+        "id": 2,
+        "title": "Count tasks by priority",
+        "done": true
+      },
+      {
+        "id": 3,
+        "title": "Calculate completion rate",
+        "done": true
+      },
+      {
+        "id": 4,
+        "title": "Show overdue tasks count",
+        "done": false
+      }
+    ],
+    "history": [
+      {
+        "timestamp": "15.06.2026 11:00",
+        "action": "Задачу створено зі статусом Todo"
+      },
+      {
+        "timestamp": "16.06.2026 13:15",
+        "action": "Статус змінено: Todo → In Progress"
+      },
+      {
+        "timestamp": "16.06.2026 17:50",
+        "action": "Додано підзадачу: Count tasks by status"
+      },
+      {
+        "timestamp": "17.06.2026 09:30",
+        "action": "Додано підзадачу: Calculate completion rate"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Test Task For Status Done",
+    "description": "Test Task For Status Done #1",
+    "status": "done",
+    "priority": "high",
+    "deadline": "20.06.2026",
+    "created_at": "19.06.2026",
+    "tags": [],
+    "history": [
+      {
+        "timestamp": "19.06.2026 18:12",
+        "action": "Задачу створено зі статусом Todo"
+      },
+      {
+        "timestamp": "19.06.2026 18:14",
+        "action": "Статус змінено: Todo → Done"
+      }
+    ],
+    "subtasks": []
+  },
+  {
+    "id": 7,
+    "title": "For Done Status",
+    "description": "For Done Status #2",
+    "status": "done",
+    "priority": "medium",
+    "deadline": null,
+    "created_at": "19.06.2026",
+    "tags": [
+      "test",
+      "done",
+      "status",
+      "task"
+    ],
+    "history": [
+      {
+        "timestamp": "19.06.2026 18:14",
+        "action": "Задачу створено зі статусом Todo"
+      },
+      {
+        "timestamp": "19.06.2026 18:14",
+        "action": "Статус змінено: Todo → Done"
+      }
+    ],
+    "subtasks": []
+  }
+]

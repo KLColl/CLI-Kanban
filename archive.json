@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "title": "Design task board layout",
+    "description": "Prepare the initial board structure and visual layout for the CLI Kanban manager.",
+    "status": "done",
+    "priority": "medium",
+    "deadline": "18.06.2026",
+    "created_at": "10.06.2026",
+    "tags": [
+      "ui",
+      "design",
+      "cli"
+    ],
+    "history": [
+      {
+        "timestamp": "10.06.2026 09:15",
+        "action": "Задачу створено зі статусом Todo"
+      },
+      {
+        "timestamp": "12.06.2026 14:20",
+        "action": "Статус змінено: Todo → In Progress"
+      },
+      {
+        "timestamp": "18.06.2026 11:40",
+        "action": "Статус змінено: In Progress → Done"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Archive completed tasks",
+    "description": "Move done tasks to a separate archive file or archive section.",
+    "status": "done",
+    "priority": "medium",
+    "deadline": "19.06.2026",
+    "created_at": "13.06.2026",
+    "tags": [
+      "archive",
+      "maintenance"
+    ],
+    "subtasks": [
+      {
+        "id": 1,
+        "title": "Detect done tasks",
+        "done": true
+      },
+      {
+        "id": 2,
+        "title": "Copy tasks to archive storage",
+        "done": true
+      },
+      {
+        "id": 3,
+        "title": "Remove archived tasks from active board",
+        "done": true
+      }
+    ],
+    "history": [
+      {
+        "timestamp": "13.06.2026 10:10",
+        "action": "Задачу створено зі статусом Todo"
+      },
+      {
+        "timestamp": "14.06.2026 12:00",
+        "action": "Статус змінено: Todo → In Progress"
+      },
+      {
+        "timestamp": "19.06.2026 16:35",
+        "action": "Статус змінено: In Progress → Done"
+      }
+    ]
+  }
+]
