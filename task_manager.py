@@ -268,7 +268,7 @@ def search_tasks(tasks: list, query: str) -> list:
     return result
 
 
-def get_statistics(tasks):
+def get_statistics(tasks: list):
     """
     Рахує статистику дошки: кількість задач у кожному статусі,
     розподіл за пріоритетами, кількість прострочених, % виконання.
@@ -295,7 +295,7 @@ def get_statistics(tasks):
     }
 
 
-def add_subtask(tasks, task_id, title):
+def add_subtask(tasks: list, task_id: int, title: str):
     """Додає підзадачу (чекліст-пункт) до задачі."""
     task = find_task(tasks, task_id)
     if task is None:
@@ -334,13 +334,29 @@ def toggle_subtask(tasks, task_id, subtask_id):
     return subtask
 
 
-def get_subtask_progress(task):
+def get_subtask_progress(task: dict) -> tuple[int, int]:
     """Повертає (виконано, всього) для підзадач задачі."""
     subtasks = task.get("subtasks", [])
     if not subtasks:
         return 0, 0
     done = sum(1 for s in subtasks if s["done"])
     return done, len(subtasks)
+
+
+def get_subtask(tasks, task_id, subtask_id):
+    task = find_task(tasks, task_id)
+    if task is None:
+        raise TaskError(f"Задачу з ідентифікатором {task_id} не знайдено.")
+
+    subtask = next(
+        (s for s in task.get("subtasks", []) if s["id"] == subtask_id),
+        None
+    )
+
+    if subtask is None:
+        raise TaskError(f"Підзадачу з ідентифікатором {subtask_id} не знайдено.")
+
+    return subtask
 
 
 def archive_done_tasks(tasks):

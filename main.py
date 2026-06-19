@@ -51,7 +51,7 @@ STATS_MENU = """
 """
 
 
-def action_add(tasks):
+def action_add(tasks: list):
     title = ui.ask("Назва задачі: ")
     description = ui.ask("Опис (можна залишити порожнім): ")
     priority = ui.ask(f"Пріоритет [{'/'.join(tm.PRIORITIES)}] (Enter = medium): ").lower()
@@ -63,9 +63,9 @@ def action_add(tasks):
 
     try:
         task = tm.add_task(tasks, title, description, priority, deadline, tags)
-        print(f"Задачу #{task['id']} «{task['title']}» додано в Todo.")
+        print(ui.colorize(f"Задачу #{task['id']} «{task['title']}» додано в Todo.", ui.Color.GREEN))
     except tm.TaskError as e:
-        print(f"[!] {e}")
+        print(ui.colorize(f"[!] {e}", ui.Color.RED + ui.Color.BOLD))
 
 
 def action_delete(tasks: list):
@@ -75,20 +75,20 @@ def action_delete(tasks: list):
 
     task = tm.find_task(tasks, task_id)
     if task is None:
-        print(f"[!] Задачу з ID {task_id} не знайдено.")
+        print(ui.colorize(f"[!] Задачу з ID {task_id} не знайдено.", ui.Color.RED + ui.Color.BOLD))
         return
 
     ui.print_task_details(task)
     confirm = ui.ask(f"Видалити задачу «{task['title']}»? (y/n): ").lower()
     if confirm != "y":
-        print("Видалення скасовано.")
+        print(ui.colorize("Видалення скасовано.", ui.Color.YELLOW))
         return
 
     try:
         tm.delete_task(tasks, task_id)
-        print(f"Задачу #{task_id} видалено.")
+        print(ui.colorize(f"Задачу #{task_id} видалено.", ui.Color.GREEN))
     except tm.TaskError as e:
-        print(f"[!] {e}")
+        print(ui.colorize(f"[!] {e}", ui.Color.RED + ui.Color.BOLD))
 
 
 def action_view_details(tasks: list):
@@ -98,7 +98,7 @@ def action_view_details(tasks: list):
 
     task = tm.find_task(tasks, task_id)
     if task is None:
-        print(f"[!] Задачу з ідентифікатором {task_id} не знайдено.")
+        print(ui.colorize(f"[!] Задачу з ідентифікатором {task_id} не знайдено.", ui.Color.RED + ui.Color.BOLD))
         return
 
     ui.print_task_details(task)
@@ -113,18 +113,18 @@ def action_move(tasks: list):
         return
     try:
         task = tm.move_task(tasks, task_id, new_status)
-        print(f"Задачу #{task['id']} перенесено в «{tm.STATUS_LABELS[new_status]}».")
+        print(ui.colorize(f"Задачу #{task['id']} перенесено в «{tm.STATUS_LABELS[new_status]}».", ui.Color.GREEN))
     except tm.TaskError as e:
-        print(f"[!] {e}")
+        print(ui.colorize(f"[!] {e}", ui.Color.RED + ui.Color.BOLD))
 
 
-def action_edit(tasks):
+def action_edit(tasks: list):
     task_id = ui.ask_int("ID задачі для редагування: ")
     if task_id is None:
         return
     task = tm.find_task(tasks, task_id)
     if task is None:
-        print(f"[!] Задачу з ідентифікатором {task_id} не знайдено.")
+        print(ui.colorize(f"[!] Задачу з ідентифікатором {task_id} не знайдено.", ui.Color.RED + ui.Color.BOLD))
         return
 
     ui.print_task_details(task)
@@ -143,9 +143,9 @@ def action_edit(tasks):
 
     try:
         tm.edit_task(tasks, task_id, priority=priority_arg, deadline=deadline_arg, tags=tags_arg)
-        print(f"Задачу #{task_id} оновлено.")
+        print(ui.colorize(f"Задачу #{task_id} оновлено.", ui.Color.GREEN))
     except tm.TaskError as e:
-        print(f"[!] {e}")
+        print(ui.colorize(f"[!] {e}", ui.Color.RED + ui.Color.BOLD))
 
 
 def action_filter_by_priority(tasks: list):
@@ -154,7 +154,7 @@ def action_filter_by_priority(tasks: list):
         filtered = tm.filter_by_priority(tasks, priority)
         ui.print_task_list(filtered, f"Задачі з пріоритетом «{tm.PRIORITY_LABELS.get(priority, priority)}»")
     except tm.TaskError as e:
-        print(f"[!] {e}")
+        print(ui.colorize(f"[!] {e}", ui.Color.RED + ui.Color.BOLD))
 
 
 def action_sort_by_deadline(tasks: list):
@@ -171,27 +171,27 @@ def action_search(tasks: list):
         print(f"[!] {e}")
 
 
-def action_statistics(tasks):
+def action_statistics(tasks: list):
     stats = tm.get_statistics(tasks)
     ui.print_statistics(stats)
 
 
-def action_filter_by_tag(tasks):
+def action_filter_by_tag(tasks: list):
     tag = ui.ask("Тег для фільтра: ")
     try:
         filtered = tm.filter_by_tag(tasks, tag)
         ui.print_task_list(filtered, f"Задачі з тегом «{tag.strip().lower()}»")
     except tm.TaskError as e:
-        print(f"[!] {e}")
+        print(ui.colorize(f"[!] {e}", ui.Color.RED + ui.Color.BOLD))
 
 
-def action_archive_done(tasks):
+def action_archive_done(tasks: list):
     confirm = ui.ask("Архівувати всі задачі зі статусом Done? (y/n): ").lower()
     if confirm != "y":
-        print("Архівування скасовано.")
+        print(ui.colorize("Архівування скасовано.", ui.Color.YELLOW))
         return
     archived = tm.archive_done_tasks(tasks)
-    print(f"Архівовано задач: {len(archived)}.")
+    print(ui.colorize(f"Архівовано задач: {len(archived)}.", ui.Color.GREEN))
 
 
 def action_view_archive():
@@ -199,31 +199,45 @@ def action_view_archive():
     ui.print_task_list(archived, "Архів виконаних задач")
 
 
-def action_add_subtask(tasks):
+def action_add_subtask(tasks: list):
     task_id = ui.ask_int("ID задачі: ")
     if task_id is None:
         return
     title = ui.ask("Назва підзадачі: ")
     try:
         subtask = tm.add_subtask(tasks, task_id, title)
-        print(f"Підзадачу #{subtask['id']} «{subtask['title']}» додано.")
+        print(ui.colorize(f"Підзадачу #{subtask['id']} «{subtask['title']}» додано.", ui.Color.GREEN))
     except tm.TaskError as e:
-        print(f"[!] {e}")
+        print(ui.colorize(f"[!] {e}", ui.Color.RED + ui.Color.BOLD))
 
 
-def action_toggle_subtask(tasks):
+def action_toggle_subtask(tasks: list):
     task_id = ui.ask_int("ID задачі: ")
     if task_id is None:
         return
+
     subtask_id = ui.ask_int("ID підзадачі: ")
     if subtask_id is None:
         return
+
     try:
-        subtask = tm.toggle_subtask(tasks, task_id, subtask_id)
-        state = "виконано" if subtask["done"] else "не виконано"
-        print(f"Підзадача «{subtask['title']}» тепер: {state}.")
+        subtask = tm.get_subtask(tasks, task_id, subtask_id)
+        new_state = "виконано" if not subtask["done"] else "не виконано"
+
+        confirm = ui.ask(
+            f"Підтвердити зміну статусу підзадачі «{subtask['title']}» на {new_state}? (y/n): "
+        )
+
+        if confirm.lower() == "y":
+            subtask = tm.toggle_subtask(tasks, task_id, subtask_id)
+            state_text = ui.colorize("виконано", ui.Color.GREEN) if subtask["done"] else ui.colorize("не виконано", ui.Color.RED)
+            print(f"Підзадача «{subtask['title']}» тепер: {state_text}.")
+        else:
+            print(f"Зміна статусу «{subtask['title']}» відхилена")
+
+
     except tm.TaskError as e:
-        print(f"[!] {e}")
+        print(ui.colorize(f"[!] {e}", ui.Color.RED + ui.Color.BOLD))
 
 
 def board_menu_loop(tasks: list):
@@ -255,10 +269,10 @@ def board_menu_loop(tasks: list):
         elif choice == "0":
             return
         else:
-            print(f"[!] Невідомий пункт меню: «{choice}». Спробуйте ще раз.")
+            print(ui.colorize(f"[!] Невідомий пункт меню: «{choice}». Спробуйте ще раз.", ui.Color.RED + ui.Color.BOLD))
 
 
-def search_menu_loop(tasks):
+def search_menu_loop(tasks: list):
     """Підменю «Пошук і фільтри»."""
     while True:
         print(SEARCH_MENU)
@@ -277,10 +291,10 @@ def search_menu_loop(tasks):
         elif choice == "0":
             return
         else:
-            print(f"[!] Невідомий пункт меню: «{choice}». Спробуйте ще раз.")
+            print(ui.colorize(f"[!] Невідомий пункт меню: «{choice}». Спробуйте ще раз.", ui.Color.RED + ui.Color.BOLD))
 
 
-def stats_menu_loop(tasks):
+def stats_menu_loop(tasks: list):
     """Підменю «Статистика»."""
     while True:
         print(STATS_MENU)
@@ -291,7 +305,7 @@ def stats_menu_loop(tasks):
         elif choice == "0":
             return
         else:
-            print(f"[!] Невідомий пункт меню: «{choice}». Спробуйте ще раз.")
+            print(ui.colorize(f"[!] Невідомий пункт меню: «{choice}». Спробуйте ще раз.", ui.Color.RED + ui.Color.BOLD))
 
 
 def main():
@@ -311,7 +325,7 @@ def main():
             print("До побачення!")
             break
         else:
-            print(f"[!] Невідомий пункт меню: «{choice}». Спробуйте ще раз.")
+            print(ui.colorize(f"[!] Невідомий пункт меню: «{choice}». Спробуйте ще раз.", ui.Color.RED + ui.Color.BOLD))
 
 
 if __name__ == "__main__":
