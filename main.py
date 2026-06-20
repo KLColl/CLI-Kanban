@@ -364,7 +364,7 @@ def show_notifications(tasks: list):
         print()
 
     if approaching:
-        print(ui.colorize(f"⏳ Скоро завершуються ({len(approaching)} (до {approaching}):", ui.Color.YELLOW + ui.Color.BOLD))
+        print(ui.colorize(f"⏳ Скоро завершуються ({len(approaching)}):", ui.Color.YELLOW + ui.Color.BOLD))
         for t in approaching:
             print(ui.colorize(f"   - [{t['id']}] {t['title']} (до {t['deadline']})", ui.Color.YELLOW))
 
