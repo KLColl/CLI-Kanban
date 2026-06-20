@@ -1,7 +1,7 @@
 """
 Kanban-менеджер задач — точка входу.
 """
-
+import exporter
 import storage
 import task_manager as tm
 import ui
@@ -11,6 +11,7 @@ MAIN_MENU = """
 1. Дошка та задачі
 2. Пошук і фільтри
 3. Статистика
+4. Експорт
 0. Вийти
 =============================================
 """
@@ -45,6 +46,14 @@ SEARCH_MENU = """
 STATS_MENU = """
 ----- СТАТИСТИКА -----
 1. Показати статистику дошки
+0. Назад до головного меню
+----------------------------
+"""
+
+EXPORT_MENU = """
+----- ЕКСПОРТ -----
+1. Експортувати у CSV
+2. Експортувати у Markdown
 0. Назад до головного меню
 ----------------------------
 """
@@ -239,6 +248,20 @@ def action_toggle_subtask(tasks: list):
         print(ui.colorize(f"[!] {e}", ui.Color.RED + ui.Color.BOLD))
 
 
+def action_export_board_csv(tasks: list):
+    filename = ui.ask("Ім'я файлу (Enter = board_export.csv): ")
+    filename = filename if filename else "board_export.csv"
+    if exporter.export_board_csv(tasks, filename):
+        print(ui.colorize(f"Дошку успішно експортовано у «{filename}».", ui.Color.GREEN))
+
+
+def action_export_board_md(tasks: list):
+    filename = ui.ask("Ім'я файлу (Enter = board_export.md): ")
+    filename = filename if filename else "board_export.md"
+    if exporter.export_board_markdown(tasks, filename):
+        print(ui.colorize(f"Дошку успішно експортовано у «{filename}».", ui.Color.GREEN))
+
+
 def board_menu_loop(tasks: list):
     """Підменю «Дошка та задачі»."""
     while True:
@@ -307,8 +330,50 @@ def stats_menu_loop(tasks: list):
             print(ui.colorize(f"[!] Невідомий пункт меню: «{choice}». Спробуйте ще раз.", ui.Color.RED + ui.Color.BOLD))
 
 
+def export_menu_loop(tasks: list):
+    """Підменю «Експорт»."""
+    while True:
+        print(EXPORT_MENU)
+        choice = ui.ask("Оберіть формат: ")
+
+        if choice == "1":
+            action_export_board_csv(tasks)
+        elif choice == "2":
+            action_export_board_md(tasks)
+        elif choice == "0":
+            return
+        else:
+            print(ui.colorize("[!] Невідомий вибір. Спробуйте ще раз.", ui.Color.RED + ui.Color.BOLD))
+
+
+def show_notifications(tasks: list):
+    """Виводить банер з простроченими та близькими дедлайнами."""
+    overdue = [t for t in tasks if tm.is_overdue(t) and t.get("status") != "done"]
+    approaching = [t for t in tasks if tm.is_approaching_deadline(t, days=3)]
+
+    if not overdue and not approaching:
+        return
+
+    print()
+    print(ui.colorize("="*12 + " 🔔 ДЕДЛАЙНИ " + "="*12, ui.Color.BOLD + ui.Color.YELLOW))
+
+    if overdue:
+        print(ui.colorize(f"⚠️ Прострочено ({len(overdue)}):", ui.Color.RED + ui.Color.BOLD))
+        for t in overdue:
+            print(ui.colorize(f"   - [{t['id']}] {t['title']} (був {t['deadline']})", ui.Color.RED))
+        print()
+
+    if approaching:
+        print(ui.colorize(f"⏳ Скоро завершуються ({len(approaching)} (до {approaching}):", ui.Color.YELLOW + ui.Color.BOLD))
+        for t in approaching:
+            print(ui.colorize(f"   - [{t['id']}] {t['title']} (до {t['deadline']})", ui.Color.YELLOW))
+
+    print(ui.colorize("="*46, ui.Color.BOLD + ui.Color.YELLOW))
+
+
 def main():
     tasks = storage.load_tasks()
+    show_notifications(tasks)
 
     while True:
         print(MAIN_MENU)
@@ -320,6 +385,8 @@ def main():
             search_menu_loop(tasks)
         elif choice == "3":
             stats_menu_loop(tasks)
+        elif choice == "4":
+            export_menu_loop(tasks)
         elif choice == "0":
             print("До побачення!")
             break

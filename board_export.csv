@@ -1,0 +1,24 @@
+﻿ID,Назва,Опис,Статус,Пріоритет,Дедлайн,Прострочено,Створено,Теги,Виконано підзадач,Всього підзадач,Історія
+2,Implement task tags and filtering,"Add support for tags, tag filtering, and display tags in task output.",In Progress,Високий,18.06.2026,Так,11.06.2026,"feature, filter, backend",2,3,"11.06.2026 10:05 — Задачу створено зі статусом Todo
+13.06.2026 16:30 — Статус змінено: Todo → In Progress
+14.06.2026 12:10 — Додано підзадачу: Store tags in task data
+15.06.2026 18:45 — Додано підзадачу: Add filtering by tag
+20.06.2026 21:52 — Редагування: дедлайн → 18.06.2026"
+3,Add task history log,"Track task creation, edits, status changes, and subtask updates.",Todo,Середній,25.06.2026,Ні,12.06.2026,"history, audit, feature",1,3,"12.06.2026 08:40 — Задачу створено зі статусом Todo
+13.06.2026 09:10 — Додано підзадачу: Log task creation"
+4,Fix overdue task highlighting,Improve console output for overdue tasks and make warnings more visible.,Todo,Низький,19.06.2026,Так,14.06.2026,"ui, console, bugfix",0,0,"14.06.2026 15:25 — Задачу створено зі статусом Todo
+20.06.2026 21:50 — Редагування: дедлайн → 19.06.2026"
+5,Build statistics for the board,"Show completion rate, overdue count, and breakdown by priority and status.",In Progress,Високий,21.06.2026,Ні,15.06.2026,"statistics, report, dashboard",3,4,"15.06.2026 11:00 — Задачу створено зі статусом Todo
+16.06.2026 13:15 — Статус змінено: Todo → In Progress
+16.06.2026 17:50 — Додано підзадачу: Count tasks by status
+17.06.2026 09:30 — Додано підзадачу: Calculate completion rate"
+6,Test Task For Status Done,Test Task For Status Done #1,Done,Високий,20.06.2026,Ні,19.06.2026,,0,0,"19.06.2026 18:12 — Задачу створено зі статусом Todo
+19.06.2026 18:14 — Статус змінено: Todo → Done"
+7,For Done Status,For Done Status #2,Done,Середній,,Ні,19.06.2026,"test, done, status, task",0,0,"19.06.2026 18:14 — Задачу створено зі статусом Todo
+19.06.2026 18:14 — Статус змінено: Todo → Done"
+8,Test Task,Test Description,In Progress,Високий,22.06.2026,Ні,20.06.2026,"test, task, ui",1,2,"20.06.2026 21:30 — Задачу створено зі статусом Todo
+20.06.2026 21:42 — Статус змінено: Todo → In Progress
+20.06.2026 21:43 — Редагування: пріоритет → Високий; дедлайн → 22.06.2026
+20.06.2026 21:44 — Додано підзадачу: Test Subtask #1
+20.06.2026 21:44 — Додано підзадачу: Test Subtask #2
+20.06.2026 21:46 — Підзадача «Test Subtask #1»: виконано"

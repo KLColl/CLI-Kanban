@@ -5,7 +5,7 @@
     "description": "Add support for tags, tag filtering, and display tags in task output.",
     "status": "in_progress",
     "priority": "high",
-    "deadline": "22.06.2026",
+    "deadline": "18.06.2026",
     "created_at": "11.06.2026",
     "tags": [
       "feature",
@@ -45,6 +45,10 @@
       {
         "timestamp": "15.06.2026 18:45",
         "action": "Додано підзадачу: Add filtering by tag"
+      },
+      {
+        "timestamp": "20.06.2026 21:52",
+        "action": "Редагування: дедлайн → 18.06.2026"
       }
     ]
   },
@@ -95,7 +99,7 @@
     "description": "Improve console output for overdue tasks and make warnings more visible.",
     "status": "todo",
     "priority": "low",
-    "deadline": "20.06.2026",
+    "deadline": "19.06.2026",
     "created_at": "14.06.2026",
     "tags": [
       "ui",
@@ -106,6 +110,10 @@
       {
         "timestamp": "14.06.2026 15:25",
         "action": "Задачу створено зі статусом Todo"
+      },
+      {
+        "timestamp": "20.06.2026 21:50",
+        "action": "Редагування: дедлайн → 19.06.2026"
       }
     ]
   },
@@ -209,5 +217,57 @@
       }
     ],
     "subtasks": []
+  },
+  {
+    "id": 8,
+    "title": "Test Task",
+    "description": "Test Description",
+    "status": "in_progress",
+    "priority": "high",
+    "deadline": "22.06.2026",
+    "created_at": "20.06.2026",
+    "tags": [
+      "test",
+      "task",
+      "ui"
+    ],
+    "history": [
+      {
+        "timestamp": "20.06.2026 21:30",
+        "action": "Задачу створено зі статусом Todo"
+      },
+      {
+        "timestamp": "20.06.2026 21:42",
+        "action": "Статус змінено: Todo → In Progress"
+      },
+      {
+        "timestamp": "20.06.2026 21:43",
+        "action": "Редагування: пріоритет → Високий; дедлайн → 22.06.2026"
+      },
+      {
+        "timestamp": "20.06.2026 21:44",
+        "action": "Додано підзадачу: Test Subtask #1"
+      },
+      {
+        "timestamp": "20.06.2026 21:44",
+        "action": "Додано підзадачу: Test Subtask #2"
+      },
+      {
+        "timestamp": "20.06.2026 21:46",
+        "action": "Підзадача «Test Subtask #1»: виконано"
+      }
+    ],
+    "subtasks": [
+      {
+        "id": 1,
+        "title": "Test Subtask #1",
+        "done": true
+      },
+      {
+        "id": 2,
+        "title": "Test Subtask #2",
+        "done": false
+      }
+    ]
   }
 ]

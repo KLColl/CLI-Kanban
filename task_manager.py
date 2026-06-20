@@ -382,3 +382,21 @@ def archive_done_tasks(tasks):
 def get_archived_tasks():
     """Повертає список архівованих задач."""
     return storage.load_archive()
+
+
+def is_approaching_deadline(task: dict, days: int = 3) -> bool:
+    """Перевіряє, чи дедлайн настає у найближчі `days` днів (і задача не виконана)."""
+    deadline_str = task.get("deadline")
+
+
+    if not deadline_str or task.get("status") == "done":
+        return False
+
+    try:
+        deadline_date = datetime.strptime(deadline_str, "%d.%m.%Y").date()
+        today = datetime.now().date()
+        delta = (deadline_date - today).days
+
+        return 0 <= delta <= days
+    except ValueError:
+        return False
