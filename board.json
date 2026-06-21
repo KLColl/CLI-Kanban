@@ -5,7 +5,7 @@
     "description": "Add support for tags, tag filtering, and display tags in task output.",
     "status": "in_progress",
     "priority": "high",
-    "deadline": "18.06.2026",
+    "deadline": "28.06.2026",
     "created_at": "11.06.2026",
     "tags": [
       "feature",
@@ -49,6 +49,10 @@
       {
         "timestamp": "20.06.2026 21:52",
         "action": "Редагування: дедлайн → 18.06.2026"
+      },
+      {
+        "timestamp": "22.06.2026 00:11",
+        "action": "Редагування: дедлайн → 28.06.2026"
       }
     ]
   },
@@ -269,5 +273,48 @@
         "done": false
       }
     ]
+  },
+  {
+    "id": 9,
+    "title": "GitTask",
+    "description": "",
+    "status": "todo",
+    "priority": "low",
+    "deadline": "29.06.2026",
+    "created_at": "22.06.2026",
+    "tags": [
+      "test",
+      "git",
+      "ui",
+      "task"
+    ],
+    "history": [
+      {
+        "timestamp": "22.06.2026 00:10",
+        "action": "Задачу створено зі статусом Todo"
+      }
+    ],
+    "subtasks": []
+  },
+  {
+    "id": 10,
+    "title": "Report",
+    "description": "Write a report",
+    "status": "todo",
+    "priority": "medium",
+    "deadline": "27.06.2026",
+    "created_at": "22.06.2026",
+    "tags": [
+      "report",
+      "text",
+      "task"
+    ],
+    "history": [
+      {
+        "timestamp": "22.06.2026 00:14",
+        "action": "Задачу створено зі статусом Todo"
+      }
+    ],
+    "subtasks": []
   }
 ]
